@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas Kriptografi - Hill Cipher</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="glass-panel max-w-4xl w-full p-8 rounded-2xl shadow-2xl">
+        <h1 class="text-3xl font-bold mb-2 text-center text-blue-400">Aplikasi Hill Cipher</h1>
+        <p class="text-center text-gray-400 mb-6 text-sm">Enkripsi & Dekripsi Teks dan File</p>
+        
+        <!-- Tabs -->
+        <div class="flex border-b border-gray-700 mb-6">
+            <button id="tab-text" class="flex-1 py-2 text-center text-blue-400 border-b-2 border-blue-400 font-semibold" onclick="switchTab('text')">Teks</button>
+            <button id="tab-file" class="flex-1 py-2 text-center text-gray-500 hover:text-gray-300 font-semibold" onclick="switchTab('file')">File (Gambar/Audio/Video)</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Left Column: Input -->
+            <div class="space-y-4">
+                <!-- Text Input Section -->
+                <div id="textInputSection">
+                    <label class="block text-sm font-medium mb-1">Input Text</label>
+                    <textarea id="inputText" class="w-full bg-gray-800 text-white rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 h-32" placeholder="Masukkan teks..."></textarea>
+                    
+                    <label class="block text-sm font-medium mt-4 mb-1">Format Output</label>
+                    <select id="outputFormat" class="bg-gray-800 text-white rounded p-2 w-full focus:outline-none">
+                        <option value="no-space">Tanpa Spasi (Menyambung)</option>
+                        <option value="group-5">Dikelompokkan 5 Huruf</option>
+                    </select>
+                </div>
+
+                <!-- File Input Section (Hidden by default) -->
+                <div id="fileInputSection" class="hidden">
+                    <label class="block text-sm font-medium mb-1">Upload File</label>
+                    <div class="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center bg-gray-800 hover:bg-gray-700 transition cursor-pointer relative">
+                        <input type="file" id="fileInput" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="updateFileName()">
+                        <div id="fileNameDisplay" class="text-gray-400">Klik atau Drag & Drop file ke sini</div>
+                    </div>
+                    <p class="text-xs text-yellow-500 mt-2">*Membaca file secara byte (Mod 256).</p>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-1">Kunci Matriks (2x2)</label>
+                    <div class="grid grid-cols-2 gap-2 max-w-[150px]">
+                        <input type="number" id="k00" class="bg-gray-800 text-center rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" value="3">
+                        <input type="number" id="k01" class="bg-gray-800 text-center rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" value="3">
+                        <input type="number" id="k10" class="bg-gray-800 text-center rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" value="2">
+                        <input type="number" id="k11" class="bg-gray-800 text-center rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" value="5">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Output & Actions -->
+            <div class="space-y-4 flex flex-col justify-between">
+                <div id="textOutputSection">
+                    <label class="block text-sm font-medium mb-1">Output Text</label>
+                    <textarea id="outputText" readonly class="w-full bg-gray-800 text-green-400 rounded p-3 h-32 focus:outline-none" placeholder="Hasil akan muncul di sini..."></textarea>
+                </div>
+
+                <div id="fileOutputSection" class="hidden text-center flex flex-col justify-center items-center h-32 bg-gray-800 rounded border border-gray-700">
+                    <p class="text-gray-400 mb-2">File hasil proses akan otomatis terunduh.</p>
+                    <div id="loading" class="hidden text-blue-400 font-bold animate-pulse">Memproses file...</div>
+                </div>
+                
+                <div id="errorBox" class="hidden bg-red-900/50 text-red-200 p-3 rounded text-sm border border-red-500/50"></div>
+
+                <div class="flex space-x-4">
+                    <button onclick="process('encrypt')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded transition duration-200 shadow-lg shadow-blue-500/30">
+                        Encrypt
+                    </button>
+                    <button onclick="process('decrypt')" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded transition duration-200 shadow-lg shadow-purple-500/30">
+                        Decrypt
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>
